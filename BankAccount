@@ -1,6 +1,7 @@
 BankAccount.java
 
 ```java
+
 public class BankAccount {
     // Property to store the balance
     private double balance;
@@ -56,6 +57,7 @@ public class BankAccount {
 Main.java
 
 ```java
+
 import java.util.Scanner;
 
 public class Main {
