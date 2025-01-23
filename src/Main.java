@@ -4,50 +4,101 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Create two bank accounts for testing
-        BankAccount account1 = new BankAccount();  // Account 1 starts with 0 balance
-        BankAccount account2 = new BankAccount(100.0);  // Account 2 starts with 100 balance
+        // Initialize bank accounts with names
+        BankAccount account1 = new BankAccount("LV06HABA7765507223498", "Alice", 500.0, "pass123");
+        BankAccount account2 = new BankAccount("LV06HABA7765507223499", "Bob", 1000.0, "secure456");
 
-        // Example of interacting with the user
-        System.out.println("Welcome to the Banking Program!");
+        BankAccount[] accounts = {account1, account2};
 
+        System.out.println("Welcome to the Bank!");
+
+        BankAccount currentAccount = null;
+
+        // Account selection loop
+        while (currentAccount == null) {
+            System.out.println("\nPlease enter your account number:");
+            String inputAccountNumber = scanner.next();
+
+            for (BankAccount account : accounts) {
+                if (account.getAccountNumber().equals(inputAccountNumber)) {
+                    currentAccount = account;
+                    break;
+                }
+            }
+
+            if (currentAccount == null) {
+                System.out.println("Account number not found. Please try again.");
+            }
+        }
+
+        // Greet the user by name
+        System.out.println("Welcome to your account, " + currentAccount.getName() + "! You can now perform transactions.");
+
+        // Main program loop
         while (true) {
             System.out.println("\nChoose an action: ");
             System.out.println("1. Deposit");
             System.out.println("2. Withdraw");
             System.out.println("3. Print Balance");
             System.out.println("4. Transfer");
-            System.out.println("5. Exit");
+            System.out.println("5. View Transaction History");
+            System.out.println("6. Exit");
 
-            // Get user's choice
             int choice = scanner.nextInt();
 
-            // Switch statement for handling actions based on user's choice
             switch (choice) {
-                case 1:
+                case 1: // Deposit
                     System.out.print("Enter deposit amount: ");
                     double depositAmount = scanner.nextDouble();
-                    account1.deposit(depositAmount);
+                    currentAccount.deposit(depositAmount);
                     break;
-                case 2:
+
+                case 2: // Withdraw
                     System.out.print("Enter withdrawal amount: ");
                     double withdrawAmount = scanner.nextDouble();
-                    account1.withdraw(withdrawAmount);
+                    System.out.print("Enter password: ");
+                    String withdrawPassword = scanner.next();
+                    currentAccount.withdraw(withdrawAmount, withdrawPassword);
                     break;
-                case 3:
-                    account1.printBalance();
+
+                case 3: // Print balance
+                    currentAccount.printBalance();
                     break;
-                case 4:
-                    System.out.print("Enter transfer amount: ");
-                    double transferAmount = scanner.nextDouble();
-                    account1.transfer(account2, transferAmount);
+
+                case 4: // Transfer
+                    System.out.print("Enter recipient account number: ");
+                    String recipientAccountNumber = scanner.next();
+                    BankAccount recipientAccount = null;
+
+                    for (BankAccount account : accounts) {
+                        if (account.getAccountNumber().equals(recipientAccountNumber)) {
+                            recipientAccount = account;
+                            break;
+                        }
+                    }
+
+                    if (recipientAccount == null) {
+                        System.out.println("Recipient account not found.");
+                    } else {
+                        System.out.print("Enter transfer amount: ");
+                        double transferAmount = scanner.nextDouble();
+                        System.out.print("Enter password: ");
+                        String transferPassword = scanner.next();
+                        currentAccount.transfer(recipientAccount, transferAmount, transferPassword);
+                    }
                     break;
-                case 5:
-                    System.out.println("Exiting. Thank you for using the banking program!");
+
+                case 5: // View transaction history
+                    currentAccount.printTransactionHistory();
+                    break;
+
+                case 6: // Exit
+                    System.out.println("Exiting the banking program. Thank you!");
                     scanner.close();
-                    return; // Exiting the program
+                    return;
+
                 default:
-                    System.out.println("Invalid choice. Try again.");
+                    System.out.println("Invalid choice. Please try again.");
             }
         }
     }

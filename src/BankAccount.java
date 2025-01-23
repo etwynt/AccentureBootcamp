@@ -1,50 +1,85 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class BankAccount {
-    // Property to store the balance
-    private double balance;
+    private String accountNumber; // Unique account number
+    private String name;          // Account holder's name
+    private double balance;       // Account balance
+    private String password;      // Account password
+    private List<String> transactionHistory; // Transaction history
 
-    // Default constructor (empty)
-    public BankAccount() {
-        this.balance = 0.0;
-    }
-
-    // Constructor with balance parameter
-    public BankAccount(double balance) {
+    // Constructor
+    public BankAccount(String accountNumber, String name, double balance, String password) {
+        this.accountNumber = accountNumber;
+        this.name = name;
         this.balance = balance;
+        this.password = password;
+        this.transactionHistory = new ArrayList<>();
     }
 
-    // Method to deposit an amount into the account
+    // Getter for account number
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    // Getter for account holder's name
+    public String getName() {
+        return name;
+    }
+
+    // Method to deposit money
     public void deposit(double amount) {
         if (amount > 0) {
             balance += amount;
+            transactionHistory.add("Deposited: " + amount);
             System.out.println("Deposit successful. New balance: " + balance);
         } else {
             System.out.println("Deposit amount must be positive.");
         }
     }
 
-    // Method to withdraw an amount from the account
-    public void withdraw(double amount) {
+    // Method to withdraw money
+    public void withdraw(double amount, String inputPassword) {
+        if (!inputPassword.equals(password)) {
+            System.out.println("Invalid password. Withdrawal denied.");
+            return;
+        }
         if (amount > 0 && amount <= balance) {
             balance -= amount;
+            transactionHistory.add("Withdrew: " + amount);
             System.out.println("Withdrawal successful. New balance: " + balance);
         } else {
-            System.out.println("Insufficient funds or invalid withdrawal amount.");
+            System.out.println("Insufficient funds or invalid amount.");
         }
     }
 
-    // Method to print the current balance
-    public void printBalance() {
-        System.out.println("Current balance: " + balance);
-    }
-
-    // Method to transfer balance to another BankAccount
-    public void transfer(BankAccount recipient, double amount) {
+    // Method to transfer money to another account
+    public void transfer(BankAccount recipient, double amount, String inputPassword) {
+        if (!inputPassword.equals(password)) {
+            System.out.println("Invalid password. Transfer denied.");
+            return;
+        }
         if (amount > 0 && amount <= balance) {
             balance -= amount;
             recipient.deposit(amount);
+            transactionHistory.add("Transferred: " + amount + " to " + recipient.getAccountNumber());
             System.out.println("Transfer successful. Your new balance: " + balance);
         } else {
             System.out.println("Transfer failed. Insufficient funds or invalid amount.");
+        }
+    }
+
+    // Method to print balance
+    public void printBalance() {
+        System.out.println("Account Number: " + accountNumber);
+        System.out.println("Current Balance: " + balance);
+    }
+
+    // Method to print transaction history
+    public void printTransactionHistory() {
+        System.out.println("Transaction History for Account: " + accountNumber);
+        for (String transaction : transactionHistory) {
+            System.out.println(transaction);
         }
     }
 }
