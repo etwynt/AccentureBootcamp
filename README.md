@@ -5,7 +5,9 @@ This system is built in Java language with IntelliJ IDEA.
 
 ## Featuring: 
 
+- Accessing account information by entering bank account number
 - Deposits
 - Withdrawals
+- Print balance
 - Transfers
-- Balance 
+- View transaction history
