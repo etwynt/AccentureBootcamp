@@ -11,3 +11,5 @@ This system is built in Java language with IntelliJ IDEA.
 - Print balance
 - Transfers
 - View transaction history
+
+- Unit Tests
