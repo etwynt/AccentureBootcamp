@@ -27,6 +27,7 @@ public class BankAccount {
         return name;
     }
 
+
     // Method to deposit money
     public void deposit(double amount) {
         if (amount > 0) {
@@ -67,6 +68,11 @@ public class BankAccount {
         } else {
             System.out.println("Transfer failed. Insufficient funds or invalid amount.");
         }
+    }
+
+    // Getter method for balance
+    public double getBalance() {
+        return balance;
     }
 
     // Method to print balance
