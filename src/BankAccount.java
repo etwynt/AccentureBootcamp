@@ -81,7 +81,7 @@ public class BankAccount {
         System.out.println("Current Balance: " + balance);
     }
 
-    // Method to print transaction history
+    // Method to print the transaction history
     public void printTransactionHistory() {
         System.out.println("Transaction History for Account: " + accountNumber);
         for (String transaction : transactionHistory) {
